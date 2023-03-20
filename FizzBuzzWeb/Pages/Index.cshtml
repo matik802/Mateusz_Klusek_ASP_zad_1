@@ -4,12 +4,38 @@
     ViewData["Title"] = "Fizz Buzz"; 
 }
 <form method="post">
-<div class="text-center">
+    <div align="left">
     <h1 class="display-4">Welcome @Model.Name</h1>
-    <label asp-for="@Model.fizzBuzz.Number"></label>
-    <input asp-for="@Model.fizzBuzz.Number" />
-        <p>@ViewData["Info"]</p>
+    <input asp-for="@Model.Name" hidden/>
+    <div class="form-group">
+        <label asp-for="@Model.fizzBuzz.Number"></label>
+        <input asp-for="@Model.fizzBuzz.Number" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Zatwierdz</button>
+    </div>
+    <div class="form-group">
+        @{
+            if (ViewData["Check"] == "True")
+            {
+                <div class="alert alert-success" role="alert">
+                    <p>@ViewData["Info"]</p>
+                </div>
+            }
+            else if (ViewData["Check"] == "False")
+            {
+                <div class="alert alert-danger" role="alert">
+                    <p>@ViewData["Info"]</p>
+                </div>
+            }
+        }
+    </div>
         <span asp-validation-for="@Model.fizzBuzz.Number"></span>
-    <button type="submit">Sprawdz</button>
 </div>
 </form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
