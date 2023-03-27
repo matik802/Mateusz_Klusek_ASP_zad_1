@@ -16,15 +16,19 @@
     <div class="form-group">
         <label asp-for="@Model.form.Year"></label>
     <input asp-for="@Model.form.Year"/>
-        <span asp-validation-for="@Model.form.Year" class="text-danger"></span>
+        <b><span asp-validation-for="@Model.form.Year" class="text-danger"></span></b>
     </div>
     <div class="form-group">
         <label asp-for="@Model.form.Name"></label>
     <input asp-for="@Model.form.Name"/>
-        <span asp-validation-for="@Model.form.Name" class="text-danger"></span>
+        <b><span asp-validation-for="@Model.form.Name" class="text-danger"></span></b>
     </div>
     <button type="submit">Zatwierdz</button></br>
-    
+    @if(TempData["Check"]=="Valid")
+    {
+        <p>@Model.form.Name urodzil sie w @Model.form.Year. Byl do rok przestepny.</p>
+    }
+
 </form>
 @section Scripts{
     @{

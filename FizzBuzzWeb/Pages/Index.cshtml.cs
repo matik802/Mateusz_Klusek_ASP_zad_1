@@ -52,10 +52,12 @@ namespace FizzBuzzWeb.Pages
                 }
                 forms.AddLast(form);
                 HttpContext.Session.SetString("Data", JsonConvert.SerializeObject(forms));
+                TempData["Check"] = "Valid";
+                OnGet();
 				//HttpContext.Session.SetInt32("Data2", (int)fizzBuzz.Number);
 				//return RedirectToPage("./SavedInSession");
 			}
-            return RedirectToPage("./SavedInSession"); ;
-        }
+            return Page();
+		}
     }
 }
