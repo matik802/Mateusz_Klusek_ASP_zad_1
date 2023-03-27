@@ -1,39 +1,31 @@
 ﻿@page
+@using FizzBuzzWeb.Forms;
 @model IndexModel
 @{
     ViewData["Title"] = "Fizz Buzz"; 
 }
 <form method="post">
-    <div align="left">
-    <h1 class="display-4">Welcome @Model.Name</h1>
-    <input asp-for="@Model.Name" hidden/>
-    <div class="form-group">
-            <label asp-for="@Model.fizzBuzz.Number" style="margin-top:5px;margin-bottom:5px"></label>
-            <input asp-for="@Model.fizzBuzz.Number" class="form-control" style="margin-top:5px;margin-bottom:5px" />
-    </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary" style="margin-top:5px;margin-bottom:5px">Zatwierdz</button>
-    </div>
-    <div class="form-group" style="margin-top:5px;margin-bottom:5px" class="alert">
-        @{
-            if (ViewData["Check"] == "True")
-            {
-                <div class="alert alert-success" role="alert">
-                    <p>@ViewData["Info"]</p>
-                </div>
-            }
-            else if (ViewData["Check"] == "False")
-            {
-                <div class="alert alert-danger" role="alert">
-                    <p>@ViewData["Info"]</p>
-                </div>
-            }
+    @if (@Model.tab != null)
+    {
+        for (int i = 0; i < @Model.tab.Length; i++)
+        {
+            <input asp-for="tab[i].Year" hidden />
+            <input asp-for="tab[i].Name" hidden />
         }
+    }
+    <div class="form-group">
+        <label asp-for="@Model.form.Year"></label>
+    <input asp-for="@Model.form.Year"/>
+        <span asp-validation-for="@Model.form.Year" class="text-danger"></span>
     </div>
-        <span asp-validation-for="@Model.fizzBuzz.Number" class="text-danger"></span>
-</div>
+    <div class="form-group">
+        <label asp-for="@Model.form.Name"></label>
+    <input asp-for="@Model.form.Name"/>
+        <span asp-validation-for="@Model.form.Name" class="text-danger"></span>
+    </div>
+    <button type="submit">Zatwierdz</button></br>
+    
 </form>
-
 @section Scripts{
     @{
         <partial name="_ValidationScriptsPartial" />

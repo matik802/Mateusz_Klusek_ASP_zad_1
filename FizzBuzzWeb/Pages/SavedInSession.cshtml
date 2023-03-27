@@ -1,0 +1,25 @@
+﻿@page
+@using FizzBuzzWeb.Forms;
+@model SavedInSessionModel
+@{
+	ViewData["Title"] = "Data in session";
+}
+<p>Dane w zapisane w sesji</p>
+@if (Model.forms != null)
+{
+	foreach(Form var in Model.forms)
+	{
+	
+		<!--//Html.DisplayNameFor(model => Model.fizzBuzz.Number):
+			Model.fizzBuzz.Number-->
+			@if (var.Year % 4 == 0)
+			{
+				<p>@var.Name urodzil sie w @var.Year roku. To byl rok przestepny.</p>
+			}
+			else
+			{
+				<p>@var.Name urodzil sie w @var.Year roku. To nie byl rok przestepny</p>
+			}
+		
+	}
+}
