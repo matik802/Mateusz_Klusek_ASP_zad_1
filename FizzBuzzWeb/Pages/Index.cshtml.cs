@@ -3,16 +3,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using System;
+using FizzBuzzWeb.Data;
 
-namespace FizzBuzzWeb.Pages
+namespace FizzBuzzWeb
 {
     [BindProperties]
     public class IndexModel : PageModel
     {
+        private readonly AppDbContext _context;
+
         private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ILogger<IndexModel> logger, AppDbContext context)
         {
+            _context = context;
             _logger = logger;
         }
 
@@ -41,7 +47,18 @@ namespace FizzBuzzWeb.Pages
 			//         lista.Add(2);
 			//         lista.Add(4);
 		}
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+            _context.Form.Add(form);
+            await _context.SaveChangesAsync();
 
+            return RedirectToPage("./Index");
+        }
+        /*
         public IActionResult OnPost() 
         {
             if(ModelState.IsValid)
@@ -59,5 +76,6 @@ namespace FizzBuzzWeb.Pages
 			}
             return Page();
 		}
+        */
     }
 }

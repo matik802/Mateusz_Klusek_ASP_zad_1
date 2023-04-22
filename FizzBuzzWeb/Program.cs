@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using FizzBuzzWeb.Data;
+using Microsoft.AspNetCore.Identity;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,6 +13,11 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true; //domyslne (dostep do cookie tylko przez http)
     options.Cookie.IsEssential = true; //domyslne (jezeli uwywamy cookie to true)
 });
+builder.Services.AddDbContext<AppDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("EFDemoDB")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<AppDbContext>();
 
 
 var app = builder.Build();
@@ -25,6 +34,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 app.UseSession();
