@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FizzBuzzWeb
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "None")]
     public class EditModel : PageModel
     {
         private readonly FizzBuzzWeb.Data.AppDbContext _context;
