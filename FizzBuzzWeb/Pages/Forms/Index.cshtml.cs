@@ -11,17 +11,20 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using ContosoUniversity;
 using FizzBuzzWeb.Pages;
+using FizzBuzzWeb.Services;
 
 namespace FizzBuzzWeb.Pages.Forms
 {
     public class IndexModel : PageModel
     {
-        private readonly FizzBuzzWeb.Data.AppDbContext _context;
+        private readonly IFormService _formService;
+        private readonly IUserService _userService;
         private readonly IConfiguration Configuration;
 
-        public IndexModel(AppDbContext context, IConfiguration configuration)
+        public IndexModel(IFormService formService, IUserService userService, IConfiguration configuration)
         {
-            _context = context;
+            _formService = formService;
+            _userService = userService;
             Configuration = configuration;
         }
         public IdentityUser applicationUser { get; set; }
@@ -31,13 +34,11 @@ namespace FizzBuzzWeb.Pages.Forms
         public int pageIndex { get; set; }
         public async Task OnGetAsync(int? pageIndex)
         {
-            if (_context.Form != null)
+            if (_formService != null)
             {
                 userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                applicationUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                //Form = await _context.Form.ToListAsync();
-                //pageIndex = 1;
-                IQueryable<Form> FormIQ = from s in _context.Form
+                applicationUser = _userService.GetUser(userId);
+                IQueryable<Form> FormIQ = from s in _formService.GetForms()
                                           select s;
                 FormIQ = FormIQ.OrderByDescending(s => s.Created);
                 var pageSize = Configuration.GetValue("PageSize", 4);

@@ -7,28 +7,28 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using FizzBuzzWeb.Data;
 using FizzBuzzWeb.Forms;
+using FizzBuzzWeb.Services;
 
 namespace FizzBuzzWeb.Pages.Forms
 {
     public class DetailsModel : PageModel
     {
-        private readonly FizzBuzzWeb.Data.AppDbContext _context;
-
-        public DetailsModel(FizzBuzzWeb.Data.AppDbContext context)
+        private readonly IFormService _formService;
+        public DetailsModel(IFormService formService)
         {
-            _context = context;
+            _formService = formService;
         }
 
       public Form Form { get; set; } = default!; 
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Form == null)
+            if (id == null || _formService.IsEmpty())
             {
                 return NotFound();
             }
 
-            var form = await _context.Form.FirstOrDefaultAsync(m => m.Id == id);
+            var form = _formService.GetForm((int)id);
             if (form == null)
             {
                 return NotFound();

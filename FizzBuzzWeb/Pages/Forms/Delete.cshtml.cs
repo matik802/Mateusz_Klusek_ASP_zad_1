@@ -8,17 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using FizzBuzzWeb.Data;
 using FizzBuzzWeb.Forms;
 using Microsoft.AspNetCore.Authorization;
+using FizzBuzzWeb.Services;
 
 namespace FizzBuzzWeb.Pages.Forms
 {
     [Authorize]
     public class DeleteModel : PageModel
     {
-        private readonly FizzBuzzWeb.Data.AppDbContext _context;
+        private readonly IFormService _formService;
 
-        public DeleteModel(FizzBuzzWeb.Data.AppDbContext context)
+        public DeleteModel(IFormService formService)
         {
-            _context = context;
+            _formService = formService;
         }
 
         [BindProperty]
@@ -26,12 +27,12 @@ namespace FizzBuzzWeb.Pages.Forms
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Form == null)
+            if (id == null || _formService.IsEmpty())
             {
                 return NotFound();
             }
 
-            var form = await _context.Form.FirstOrDefaultAsync(m => m.Id == id);
+            var form = _formService.GetForm((int)id);
 
             if (form == null)
             {
@@ -46,17 +47,18 @@ namespace FizzBuzzWeb.Pages.Forms
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Form == null)
+            if (id == null || _formService.IsEmpty())
             {
                 return NotFound();
             }
-            var form = await _context.Form.FindAsync(id);
+            var form = _formService.GetForm((int)id);
 
             if (form != null)
             {
                 Form = form;
-                _context.Form.Remove(Form);
-                await _context.SaveChangesAsync();
+                
+                _formService.Remove(Form);
+                _formService.Save();
             }
 
             return RedirectToPage("./Index");

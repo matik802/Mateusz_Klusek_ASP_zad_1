@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using FizzBuzzWeb.Data;
 using Microsoft.AspNetCore.Identity;
+using FizzBuzzWeb.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -18,7 +20,8 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("EFDemoDB")));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<AppDbContext>();
-
+builder.Services.AddTransient<IFormService, FormService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 var app = builder.Build();
 

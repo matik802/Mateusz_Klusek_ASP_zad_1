@@ -26,8 +26,6 @@
         {
             <p>@Model.form.Name urodzil sie w @Model.form.Year. Byl to rok przestepny.</p>
         }
-
-        TempData["1"] = "Rok przestepny";
     }
     else if (Model.form.Year % 4 != 0)
     {
@@ -39,7 +37,6 @@
         {
             <p>@Model.form.Name urodzil sie w @Model.form.Year. Nie byl to rok przestepny.</p>
         }
-        TempData["1"] = "Rok nieprzestepny";
     }
 </form>
 @section Scripts{

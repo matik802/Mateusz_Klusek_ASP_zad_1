@@ -10,17 +10,17 @@ using FizzBuzzWeb.Data;
 using FizzBuzzWeb.Forms;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using FizzBuzzWeb.Services;
 
 namespace FizzBuzzWeb.Pages.Forms
 {
     [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
-        private readonly FizzBuzzWeb.Data.AppDbContext _context;
-
-        public EditModel(FizzBuzzWeb.Data.AppDbContext context)
+        private readonly IFormService _formService;
+        public EditModel(IFormService formService)
         {
-            _context = context;
+            _formService = formService;
         }
 
         [BindProperty]
@@ -28,12 +28,12 @@ namespace FizzBuzzWeb.Pages.Forms
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Form == null)
+            if (id == null || _formService.IsEmpty())
             {
                 return NotFound();
             }
 
-            var form =  await _context.Form.FirstOrDefaultAsync(m => m.Id == id);
+            var form = _formService.GetForm((int)id);
             if (form == null)
             {
                 return NotFound();
@@ -51,15 +51,15 @@ namespace FizzBuzzWeb.Pages.Forms
                 return Page();
             }
 
-            _context.Attach(Form).State = EntityState.Modified;
+            _formService.Attach(Form);
 
             try
             {
-                await _context.SaveChangesAsync();
+                _formService.Save();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FormExists(Form.Id))
+                if (!_formService.FormExists(Form.Id))
                 {
                     return NotFound();
                 }
@@ -70,11 +70,6 @@ namespace FizzBuzzWeb.Pages.Forms
             }
 
             return RedirectToPage("./Index");
-        }
-
-        private bool FormExists(int id)
-        {
-          return (_context.Form?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

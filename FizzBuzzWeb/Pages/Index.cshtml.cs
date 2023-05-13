@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using FizzBuzzWeb.Data;
+using FizzBuzzWeb.Services;
 
 namespace FizzBuzzWeb
 {
@@ -14,11 +15,13 @@ namespace FizzBuzzWeb
     {
         private readonly AppDbContext _context;
 
+        private readonly IFormService _formService;
+
         private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(ILogger<IndexModel> logger, AppDbContext context)
+        public IndexModel(ILogger<IndexModel> logger, IFormService formService)
         {
-            _context = context;
+            _formService= formService;
             _logger = logger;
         }
 
@@ -30,14 +33,15 @@ namespace FizzBuzzWeb
 		}
         public async Task<IActionResult> OnPostAsync()
         {
-                if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
             form.Created = DateTime.Now;
-            form.Result = (string)TempData["1"];
-            _context.Form.Add(form);
-            await _context.SaveChangesAsync();
+            if (form.Year % 4 == 0) form.Result = "Rok przestepny";
+            else form.Result = "Rok nieprzestepny";
+            _formService.AddForm(form);
+            _formService.Save();
 
             return Page();
         }
