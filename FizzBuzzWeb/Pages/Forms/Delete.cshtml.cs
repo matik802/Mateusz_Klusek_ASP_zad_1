@@ -9,7 +9,7 @@ using FizzBuzzWeb.Data;
 using FizzBuzzWeb.Forms;
 using Microsoft.AspNetCore.Authorization;
 
-namespace FizzBuzzWeb
+namespace FizzBuzzWeb.Pages.Forms
 {
     [Authorize]
     public class DeleteModel : PageModel

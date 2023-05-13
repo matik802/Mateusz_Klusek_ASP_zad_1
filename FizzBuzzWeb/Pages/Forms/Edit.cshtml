@@ -1,5 +1,5 @@
 ﻿@page
-@model FizzBuzzWeb.EditModel
+@model FizzBuzzWeb.Pages.Forms.EditModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -23,6 +23,16 @@
                 <label asp-for="Form.Name" class="control-label"></label>
                 <input asp-for="Form.Name" class="form-control" />
                 <span asp-validation-for="Form.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Form.Result" class="control-label"></label>
+                <input asp-for="Form.Result" class="form-control" />
+                <span asp-validation-for="Form.Result" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Form.Created" class="control-label"></label>
+                <input asp-for="Form.Created" class="form-control" />
+                <span asp-validation-for="Form.Created" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

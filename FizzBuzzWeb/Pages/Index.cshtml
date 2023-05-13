@@ -5,14 +5,6 @@
     ViewData["Title"] = "Fizz Buzz"; 
 }
 <form method="post">
-    @if (@Model.tab != null)
-    {
-        for (int i = 0; i < @Model.tab.Length; i++)
-        {
-            <input asp-for="tab[i].Year" hidden />
-            <input asp-for="tab[i].Name" hidden />
-        }
-    }
     <div class="form-group">
         <label asp-for="@Model.form.Year"></label>
     <input asp-for="@Model.form.Year"/>
@@ -24,11 +16,31 @@
         <b><span asp-validation-for="@Model.form.Name" class="text-danger"></span></b>
     </div>
     <button type="submit">Zatwierdz</button></br>
-    @if(TempData["Check"]=="Valid")
+    @if (Model.form.Year % 4 == 0 && Model.form.Year!=0)
     {
-        <p>@Model.form.Name urodzil sie w @Model.form.Year. Byl do rok przestepny.</p>
-    }
+        @if (Model.form.Name == null)
+        {
+            <p>Rok @Model.form.Year. Byl to rok przestepny.</p>
+        }
+        else
+        {
+            <p>@Model.form.Name urodzil sie w @Model.form.Year. Byl to rok przestepny.</p>
+        }
 
+        TempData["1"] = "Rok przestepny";
+    }
+    else if (Model.form.Year % 4 != 0)
+    {
+        @if (Model.form.Name == null)
+        {
+                    <p>Rok @Model.form.Year. Nie byl to rok przestepny.</p>
+        }
+        else
+        {
+            <p>@Model.form.Name urodzil sie w @Model.form.Year. Nie byl to rok przestepny.</p>
+        }
+        TempData["1"] = "Rok nieprzestepny";
+    }
 </form>
 @section Scripts{
     @{

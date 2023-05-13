@@ -12,5 +12,8 @@ namespace FizzBuzzWeb.Forms
 		//[Required(ErrorMessage = "Pole {0} jest wymagane.")]
 		[StringLength(100, ErrorMessage = "Dlugosc {0} nie moze przekroczyc 100 znakow.")]
 		public string? Name { get; set; }
+		public string? Result { get; set; }
+		public DateTime Created { get; set; }
+
 	}
 }

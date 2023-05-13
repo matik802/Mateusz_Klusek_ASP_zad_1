@@ -9,10 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using FizzBuzzWeb.Data;
 using FizzBuzzWeb.Forms;
 using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
-namespace FizzBuzzWeb
+namespace FizzBuzzWeb.Pages.Forms
 {
-    [Authorize(Roles = "None")]
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly FizzBuzzWeb.Data.AppDbContext _context;

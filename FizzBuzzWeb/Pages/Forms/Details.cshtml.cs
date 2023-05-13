@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FizzBuzzWeb.Data;
 using FizzBuzzWeb.Forms;
 
-namespace FizzBuzzWeb
+namespace FizzBuzzWeb.Pages.Forms
 {
     public class DetailsModel : PageModel
     {
