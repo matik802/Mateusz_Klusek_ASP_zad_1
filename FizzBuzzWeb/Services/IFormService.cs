@@ -1,10 +1,12 @@
 ﻿using FizzBuzzWeb.Forms;
+using FizzBuzzWeb.ViewModels;
 
 namespace FizzBuzzWeb.Services
 {
     public interface IFormService
     {
         public IQueryable<Form> GetForms();
+        public ListFormForListVM GetFormsForList();
         public bool IsEmpty();
         public Form GetForm(int id);
         public bool FormExists(int id);
