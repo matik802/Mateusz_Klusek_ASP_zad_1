@@ -3,6 +3,8 @@ using FizzBuzzWeb.Data;
 using Microsoft.AspNetCore.Identity;
 using FizzBuzzWeb.Services;
 using FizzBuzzWeb.Utilities;
+using System.Configuration;
+using LearnASPNETCoreRazorPagesWithRealApps.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +25,11 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<AppDbContext>();
 builder.Services.AddProjectService();
 
-
+//builder.Services.AddMvc(options =>
+//{
+//    options.Filters.Add(new CustomPageFilter(builder.Configuration));
+//});
+//builder.Services.AddTransient<IGeoService, GeoService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,7 +42,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseBrowserMiddleware();
 app.UseRouting();
 app.UseAuthentication();;
 
