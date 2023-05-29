@@ -20,14 +20,15 @@ namespace LearnASPNETCoreRazorPagesWithRealApps.Middlewares
         public Task Invoke(HttpContext httpContext)
         {
             var userAgent = httpContext.Request.Headers["User-Agent"].FirstOrDefault().ToString();
-            var ipAddress = httpContext.Connection.RemoteIpAddress.ToString();
-            var url = httpContext.Request.Path;
+            //var ipAddress = httpContext.Connection.RemoteIpAddress.ToString();
+            //var url = httpContext.Request.Path;
             //Debug.WriteLine("userAgent: " + userAgent);
             //Debug.WriteLine("ipAddress: " + ipAddress);
             //Debug.WriteLine("url: " + url);
             if (userAgent.Contains("Edg"))
             {
-                Debug.WriteLine("REDIRECT");
+                var response = httpContext.Response;
+                response.Redirect("https://www.mozilla.org/pl/firefox/new/ ", true);
             }
             return _next(httpContext);
         }
